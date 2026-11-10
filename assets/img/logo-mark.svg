@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Serena Lux Logo">
+  <!-- Platzhalter-Logo: einfach diese Datei ersetzen -->
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#7E9B86" stroke-width="2.5"/>
+  <circle cx="60" cy="10" r="3.5" fill="#B8913E"/>
+  <text x="50" y="78" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="500" font-size="54" fill="#142640">S</text>
+  <text x="70" y="82" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-weight="600" font-size="46" fill="#142640">L</text>
+  <path d="M60 108 C50 106 44 100 42 92 C51 94 57 100 60 108 Z" fill="#7E9B86"/>
+  <path d="M60 108 C70 106 76 100 78 92 C69 94 63 100 60 108 Z" fill="#7E9B86"/>
+</svg>
