@@ -70,32 +70,49 @@
   if (y) y.textContent = new Date().getFullYear();
 })();
 
-/* Hero: 3 Videos nacheinander abspielen (robust, auch Safari/iPhone) */
+/* Hero: 3 Videos nacheinander abspielen.
+   Wenn das Gerät Autoplay blockiert (z. B. iPhone im Stromsparmodus),
+   werden die Videos als bewegte Bilder (<img src=mp4>) gezeigt – Safari spielt diese automatisch ab. */
 (function(){
-  var vids=[].slice.call(document.querySelectorAll('.hero-videos video'));
+  var box=document.querySelector('.hero-videos');
+  if(!box) return;
+  var vids=[].slice.call(box.querySelectorAll('video'));
   var dots=[].slice.call(document.querySelectorAll('.hero-dots span'));
   if(!vids.length) return;
-  var i=0, timer=null;
-  vids.forEach(function(v){ v.muted=true; v.defaultMuted=true; v.setAttribute('muted',''); v.setAttribute('playsinline',''); });
-  function play(v){ try{ var p=v.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
-  function next(){ i=(i+1)%vids.length; show(i); }
+  var srcs=vids.map(function(v){ var s=v.querySelector('source'); return s?s.getAttribute('src'):v.currentSrc; });
+  var items=vids, imgMode=false, i=0, timer=null;
+  var DUR=10;
+  vids.forEach(function(v){ v.muted=true; v.defaultMuted=true; v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); v.controls=false; });
+
+  function toImgMode(){
+    if(imgMode) return; imgMode=true;
+    var imgs=srcs.map(function(src,k){
+      var im=document.createElement('img'); im.alt=''; im.setAttribute('aria-hidden','true');
+      im.className=(k===i?'is-active':''); im.src=src; return im;
+    });
+    vids.forEach(function(v){ v.pause(); v.remove(); });
+    imgs.forEach(function(im){ box.appendChild(im); });
+    items=imgs; show(i);
+  }
+  function next(){ i=(i+1)%items.length; show(i); }
   function show(n){
     clearTimeout(timer);
-    vids.forEach(function(v,k){ v.classList.toggle('is-active',k===n); if(k!==n){ try{v.pause();}catch(e){} } });
+    items.forEach(function(el,k){ el.classList.toggle('is-active',k===n); if(!imgMode&&k!==n){ try{el.pause();}catch(e){} } });
     dots.forEach(function(d,k){ d.classList.toggle('on',k===n); });
-    var v=vids[n]; try{ v.currentTime=0; }catch(e){}
-    play(v);
-    /* Sicherheitsnetz: falls "ended" nicht kommt, nach Videodauer weiter */
-    var dur=(v.duration&&isFinite(v.duration))?v.duration:10;
-    timer=setTimeout(next,(dur+0.5)*1000);
+    var el=items[n], dur=DUR;
+    if(imgMode){
+      el.src=srcs[n]+(srcs[n].indexOf('?')<0?'?':'&')+'t='+Date.now(); /* von vorne starten */
+    } else {
+      try{ el.currentTime=0; }catch(e){}
+      var p; try{ p=el.play(); }catch(e){ toImgMode(); return; }
+      if(p&&p.catch) p.catch(function(){ toImgMode(); });
+      if(el.duration&&isFinite(el.duration)) dur=el.duration;
+      setTimeout(function(){ if(!imgMode && el.paused && items[i]===el) toImgMode(); },1500);
+    }
+    timer=setTimeout(next,(dur+0.3)*1000);
   }
   vids.forEach(function(v){
-    v.addEventListener('ended',next);
-    v.addEventListener('error',next,true);
+    v.addEventListener('ended',function(){ if(!imgMode&&items[i]===v) next(); });
   });
-  /* Falls der Browser Autoplay blockiert: beim ersten Tippen/Scrollen starten */
-  function kick(){ play(vids[i]); }
-  ['touchstart','click','scroll','keydown'].forEach(function(ev){ window.addEventListener(ev,kick,{passive:true,once:true}); });
-  document.addEventListener('visibilitychange',function(){ if(!document.hidden) kick(); });
   show(0);
 })();
