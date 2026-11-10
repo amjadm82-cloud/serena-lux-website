@@ -37,19 +37,26 @@
 
 <main id="main">
 
-<!-- ===== Hero ===== -->
-<section class="hero">
-  <video autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-    <source src="assets/video/hero.mp4" type="video/mp4">
-  </video>
-  <div class="container">
+<!-- ===== Hero: 3 Videos nacheinander ===== -->
+<section class="hero" aria-label="Serena Lux">
+  <div class="hero-videos" aria-hidden="true">
+    <video class="is-active" muted playsinline preload="auto"><source src="assets/video/hero.mp4" type="video/mp4"></video>
+    <video muted playsinline preload="auto"><source src="assets/video/partikel.mp4" type="video/mp4"></video>
+    <video muted playsinline preload="auto"><source src="assets/video/praxis.mp4" type="video/mp4"></video>
+  </div>
+  <div class="container hero-box">
     <span class="eyebrow">Ärztliche Schmerzmedizin in Basel</span>
-    <h1>Gezielte Injektionstherapie bei chronischen Schmerzen und Verspannungen</h1>
-    <p>Wenn Nacken, Schultern oder Rücken dauerhaft verspannt sind, wenn Kopfschmerzen den Alltag bestimmen oder eine Sehne einfach nicht heilt, braucht es mehr als Schmerzmittel. Wir setzen dort an, wo der Schmerz entsteht.</p>
-    <div class="hero-actions">
-      <a class="btn btn--gold" href="#termin">Termin anfragen</a>
-      <a class="btn btn--ghost" href="#schmerzmedizin">Mehr erfahren</a>
-    </div>
+    <h1>Ruhe im Körper, Strahlen im Leben</h1>
+    <a class="btn btn--gold" href="#termin">Termin anfragen</a>
+  </div>
+  <div class="hero-dots" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+</section>
+
+<!-- ===== Intro ===== -->
+<section class="section section--white intro">
+  <div class="container">
+    <h2>Gezielte Injektionstherapie bei chronischen Schmerzen und Verspannungen</h2>
+    <p class="lead">Wenn Nacken, Schultern oder Rücken dauerhaft verspannt sind, wenn Kopfschmerzen den Alltag bestimmen oder eine Sehne einfach nicht heilt, braucht es mehr als Schmerzmittel. Wir setzen dort an, wo der Schmerz entsteht.</p>
     <div class="pillars">
       <div class="pillar"><strong>Gezielt</strong><span>Behandlung direkt am Ursprung der Beschwerden</span></div>
       <div class="pillar"><strong>Ambulant</strong><span>Kurze Behandlung, meist ohne Ausfallzeit</span></div>
@@ -127,10 +134,7 @@
 </section>
 
 <!-- ===== Stufenkonzept ===== -->
-<section class="section section--navy section--bgvideo">
-  <video class="bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-    <source src="assets/video/partikel.mp4" type="video/mp4">
-  </video>
+<section class="section section--navy">
   <div class="container">
     <span class="eyebrow" style="color:var(--gold-soft)">Unser Stufenkonzept</span>
     <h2>Wir beginnen einfach – und gehen nur weiter, wenn es nötig ist</h2>
@@ -250,12 +254,6 @@
   <div class="container">
     <span class="eyebrow">Ablauf & Kosten</span>
     <h2>So läuft Ihre Behandlung ab</h2>
-    <div class="media media--wide">
-      <video muted loop playsinline autoplay preload="metadata" aria-label="Arzt im ruhigen Gespräch mit einer Patientin">
-        <source src="assets/video/praxis.mp4" type="video/mp4">
-      </video>
-      <div class="media-ph">Video: Praxisgespräch</div>
-    </div>
     <div class="flow">
       <div class="card"><div class="num">01</div><h3>Erstgespräch & Untersuchung</h3><p>Wir klären Ihre Beschwerden, Vorbefunde und Ziele.</p></div>
       <div class="card"><div class="num">02</div><h3>Behandlungsplan</h3><p>Sie erfahren, welche Methode passt, wie viele Sitzungen nötig sind und was es kostet.</p></div>

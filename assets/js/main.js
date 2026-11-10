@@ -69,3 +69,22 @@
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 })();
+
+/* Hero: 3 Videos nacheinander abspielen */
+(function(){
+  var vids=[].slice.call(document.querySelectorAll('.hero-videos video'));
+  var dots=[].slice.call(document.querySelectorAll('.hero-dots span'));
+  if(!vids.length) return;
+  var i=0;
+  function show(n){
+    vids.forEach(function(v,k){v.classList.toggle('is-active',k===n);});
+    dots.forEach(function(d,k){d.classList.toggle('on',k===n);});
+    var v=vids[n]; try{v.currentTime=0;}catch(e){}
+    var p=v.play(); if(p&&p.catch) p.catch(function(){});
+  }
+  vids.forEach(function(v){
+    v.addEventListener('ended',function(){ i=(i+1)%vids.length; show(i); });
+    v.addEventListener('error',function(){ i=(i+1)%vids.length; show(i); },true);
+  });
+  show(0);
+})();
