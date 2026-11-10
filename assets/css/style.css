@@ -182,3 +182,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-of
 .prose{max-width:780px}
 .prose h2{font-size:1.8rem;margin-top:1.6em}
 .prose ul{padding-left:1.2em}
+
+/* Hintergrund-Video (Partikel) */
+.section--bgvideo{position:relative;overflow:hidden}
+.section--bgvideo .bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;pointer-events:none}
+.section--bgvideo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,38,64,.55),rgba(20,38,64,.8));pointer-events:none}
+.section--bgvideo .container{position:relative;z-index:1}
+.media--wide{margin:8px 0 32px;max-height:520px}
