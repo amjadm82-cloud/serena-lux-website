@@ -70,21 +70,32 @@
   if (y) y.textContent = new Date().getFullYear();
 })();
 
-/* Hero: 3 Videos nacheinander abspielen */
+/* Hero: 3 Videos nacheinander abspielen (robust, auch Safari/iPhone) */
 (function(){
   var vids=[].slice.call(document.querySelectorAll('.hero-videos video'));
   var dots=[].slice.call(document.querySelectorAll('.hero-dots span'));
   if(!vids.length) return;
-  var i=0;
+  var i=0, timer=null;
+  vids.forEach(function(v){ v.muted=true; v.defaultMuted=true; v.setAttribute('muted',''); v.setAttribute('playsinline',''); });
+  function play(v){ try{ var p=v.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+  function next(){ i=(i+1)%vids.length; show(i); }
   function show(n){
-    vids.forEach(function(v,k){v.classList.toggle('is-active',k===n);});
-    dots.forEach(function(d,k){d.classList.toggle('on',k===n);});
-    var v=vids[n]; try{v.currentTime=0;}catch(e){}
-    var p=v.play(); if(p&&p.catch) p.catch(function(){});
+    clearTimeout(timer);
+    vids.forEach(function(v,k){ v.classList.toggle('is-active',k===n); if(k!==n){ try{v.pause();}catch(e){} } });
+    dots.forEach(function(d,k){ d.classList.toggle('on',k===n); });
+    var v=vids[n]; try{ v.currentTime=0; }catch(e){}
+    play(v);
+    /* Sicherheitsnetz: falls "ended" nicht kommt, nach Videodauer weiter */
+    var dur=(v.duration&&isFinite(v.duration))?v.duration:10;
+    timer=setTimeout(next,(dur+0.5)*1000);
   }
   vids.forEach(function(v){
-    v.addEventListener('ended',function(){ i=(i+1)%vids.length; show(i); });
-    v.addEventListener('error',function(){ i=(i+1)%vids.length; show(i); },true);
+    v.addEventListener('ended',next);
+    v.addEventListener('error',next,true);
   });
+  /* Falls der Browser Autoplay blockiert: beim ersten Tippen/Scrollen starten */
+  function kick(){ play(vids[i]); }
+  ['touchstart','click','scroll','keydown'].forEach(function(ev){ window.addEventListener(ev,kick,{passive:true,once:true}); });
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) kick(); });
   show(0);
 })();
