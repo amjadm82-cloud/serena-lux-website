@@ -203,3 +203,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-of
 .hero-videos video::-webkit-media-controls-start-playback-button,
 .hero-videos video::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}
 .hero-videos{pointer-events:none}
+
+.titles{list-style:none;padding:0;margin:8px 0 20px;color:var(--navy)}
+.titles li{padding:6px 0;border-bottom:1px solid rgba(20,38,64,.08);font-size:1rem}
+.titles li strong{font-weight:600}
