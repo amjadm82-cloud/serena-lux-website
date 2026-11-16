@@ -1,7 +1,7 @@
 <?php
 // Terminanfrage-Formular – läuft auf Hostpoint (PHP). Auf GitHub Pages (Testversion) nicht aktiv.
-// Empfänger-Adresse hier eintragen, sobald die E-Mail eingerichtet ist:
-$TO = 'termin@serenalux.ch';
+// Empfänger-Adresse:
+$TO = 'termin@serenacare.ch';
 
 header('Content-Type: application/json; charset=utf-8');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); echo json_encode(['ok'=>false]); exit; }
@@ -16,6 +16,6 @@ if ($weg === '' || $name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) ||
 $body = "Neue Terminanfrage über die Website\n\n"
   ."Weg: $weg\nName: $name\nGeburtsdatum: ".f('geburtsdatum')."\nTelefon: $tel\nE-Mail: $email\n"
   ."Wunschtermine: ".f('wunschtermine')."\n\nAnliegen:\n".trim((string)($_POST['anliegen'] ?? ''))."\n";
-$headers = "From: Website <no-reply@serenalux.ch>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=utf-8";
+$headers = "From: Serena Care Website <termin@serenacare.ch>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=utf-8";
 $ok = mail($TO, '=?UTF-8?B?'.base64_encode("Terminanfrage: $name ($weg)").'?=', $body, $headers);
 echo json_encode(['ok'=>(bool)$ok]);
