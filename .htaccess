@@ -1,0 +1,8 @@
+# Eine einzige Adresse pro Seite: https, ohne www, ohne index.html
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^(.*)$ https://serenacare.ch/$1 [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+RewriteRule ^aesthetik\.html$ /lux/ [R=301,L]
